@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# SQLite database
+db.sqlite3
+
+# Virtual environment
+.venv/
+venv/
+
+# PyCharm/IDEA
+.idea/
+
+# OS files
+.DS_Store
+
+# Migrations (optional to ignore old ones)
+*/migrations/*.pyc
