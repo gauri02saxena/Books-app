@@ -9,6 +9,8 @@ db.sqlite3
 .venv/
 venv/
 
+.env
+
 # PyCharm/IDEA
 .idea/
 
@@ -17,3 +19,4 @@ venv/
 
 # Migrations (optional to ignore old ones)
 */migrations/*.pyc
+

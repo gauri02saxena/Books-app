@@ -4,29 +4,12 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import Book
 from .serializers import BookSerializer
-
-from django.contrib.auth.models import User
-from rest_framework import serializers
-
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
+from .serializers import RegisterSerializer
 
 import logging
 logger = logging.getLogger(__name__)
-
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'password']
-
-    def create(self, validated_data):
-        user = User(username=validated_data['username'])
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
-
 
 @api_view(['POST'])
 def register_user(request):
@@ -34,9 +17,9 @@ def register_user(request):
     if serializer.is_valid():
         serializer.save()
         logger.info(f"New user registered: {serializer.validated_data['username']}")
-        return Response({"message": "User registered successfully."}, status=201)
+        return Response({"message": "User registered successfully."}, status=status.HTTP_201_CREATED)
     logger.error(f"User registration failed: {serializer.errors}")
-    return Response(serializer.errors, status=400)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
