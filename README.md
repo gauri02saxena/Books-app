@@ -101,7 +101,7 @@ All endpoints have been tested and validated using Postman.
 ### 📘 2. List All Books (GET `/books/`)
 ![List All Books](testing-snapshots/list_all_books.png)
 
-### 🔎 3. Query Params Filtering (GET `/books/?title__icontains=python`)
+### 🔎 3. Query Params Filtering (GET `/books/?pages=100&author__city=Delhi`)
 ![Query Params Filtering](testing-snapshots/query_params_filtering.png)
 
 ### ✅ 4. Dynamic Nested Filtering (POST `/books/filter/`)
