@@ -1,5 +1,4 @@
-# 📚 Books & Authors API – Django REST Framework + JWT Auth
-
+# 📚 Books & Authors API – Django REST Framework + JWT Auth + Dynamic Filtering
 A robust RESTful API built using **Django REST Framework**, supporting full CRUD operations for **Books** and **Authors**, secure **JWT authentication**, and both **basic and advanced nested filtering** with GET/POST methods.
 
 ---
@@ -93,7 +92,6 @@ Supports unlimited levels of nested filtering logic:
 ## 📸 Postman Testing
 
 All endpoints have been tested and documented via Postman.  
-👉 Include screenshots of sample success and failure responses in the `/docs/screenshots/` folder.
 
 ---
 
@@ -106,9 +104,8 @@ myapp/
 ├── views/
 │   ├── crud.py          # CRUD operations using ViewSets
 │   ├── auth.py          # RegisterView (JWT auth)
-│   └── filters.py       # Dynamic nested filter logic
+│   └── filters.py       # Dynamic nested filter + basic query param logic
 ├── urls.py              # All route definitions
-└── filters.py           # BookFilter class for GET filtering
 ```
 
 ---
@@ -118,7 +115,7 @@ myapp/
 - ✅ Uses `ViewSets` for clean, DRY CRUD implementation.
 - ✅ Logging added for key actions (create, update, register).
 - ✅ Modular views (auth, filters, crud separated).
-- ✅ Strong comments in Javadoc-style for clarity.
+- ✅ Strong comments in Python docstrings for clarity.
 - ✅ JWT-based secure authentication & session handling.
 - ✅ Uses `.env` and `decouple` for config separation.
 - ✅ Validated against standard REST API design practices.
