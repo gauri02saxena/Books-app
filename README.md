@@ -1,4 +1,4 @@
-# 📚 Books & Authors API – Django REST Framework + JWT Auth + Dynamic Filtering
+# 📚 Books & Authors API – A Django REST Framework Project
 A robust RESTful API built using **Django REST Framework**, supporting full CRUD operations for **Books** and **Authors**, secure **JWT authentication**, and both **basic and advanced nested filtering** with GET/POST methods.
 
 ---
