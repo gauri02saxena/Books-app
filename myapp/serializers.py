@@ -1,16 +1,28 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Book
+from .models import Author
 
-# Serializer for the Book model
 class BookSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Book model.
+    """
     class Meta:
         model = Book
         fields = '__all__'
 
+class AuthorSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Author model.
+    """
+    class Meta:
+        model = Author
+        fields = '__all__'
 
-# Serializer for user registration
 class RegisterSerializer(serializers.ModelSerializer):
+    """
+    Handles user registration.
+    """
     password = serializers.CharField(write_only=True)
 
     class Meta:
