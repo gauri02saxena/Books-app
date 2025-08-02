@@ -91,7 +91,22 @@ Supports unlimited levels of nested filtering logic:
 
 ## 📸 Postman Testing
 
-All endpoints have been tested and documented via Postman.  
+All endpoints have been tested and validated using Postman.
+
+🖼️ A few key screenshots of successful test responses are included below from the `/testing-snapshots/` folder:
+
+### 🔐 1. JWT Login (POST `/auth/login/`)
+![User Login](testing-snapshots/user_login.png)
+
+### 📘 2. List All Books (GET `/books/`)
+![List All Books](testing-snapshots/list_all_books.png)
+
+### 🔎 3. Query Params Filtering (GET `/books/?title__icontains=python`)
+![Query Params Filtering](testing-snapshots/query_params_filtering.png)
+
+### ✅ 4. Dynamic Nested Filtering (POST `/books/filter/`)
+![Dynamic Nested Filtering](testing-snapshots/dynamic_nested_filtering.png)
+
 
 ---
 
