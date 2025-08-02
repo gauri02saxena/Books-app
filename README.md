@@ -1,50 +1,175 @@
-# 📚 Books App with CRUD APIs and JWT Authentication – Django REST Framework
+# 📚 Books & Authors API – Django REST Framework + JWT Auth
 
-This is a backend REST API for a simple **Books Application** built using **Python** and **Django REST Framework**. It supports user registration, JWT-based authentication, and full CRUD operations for managing books.
+A robust RESTful API built using **Django REST Framework**, supporting full CRUD operations for **Books** and **Authors**, secure **JWT authentication**, and both **basic and advanced nested filtering** with GET/POST methods.
 
 ---
 
 ## 🚀 Features
 
-### ✅ User Authentication
-- Register a new user
-- Login to receive a JWT token
-- JWT used for secure session management
-- Passwords are securely hashed
+### 🔐 User Authentication
+- JWT-based secure login system.
+- Register users via `POST /auth/register/`
+- Obtain access/refresh token via `POST /auth/login/`
+- Secure token refresh via `POST /auth/token/refresh/`
+- Passwords are securely hashed using Django's built-in user model.
 
-### 📝 CRUD Operations for Books (Authenticated)
-- Create new books (single or multiple)
-- Read list of all books
-- Update entire book (PUT)
-- Partial update (PATCH) of book fields
-- Delete a book
+### 📖 CRUD for Books & Authors
+- Create, list, update, delete Books and Authors.
+- Bulk book creation supported.
+- `ModelViewSet` based implementation for scalable code.
+- Auth-protected views using `IsAuthenticated`.
 
-### 🔒 Security
-- JWT authentication protects all book endpoints
-- Passwords stored securely (hashed)
-- Sensitive data handled using `.env`
+### 🔍 Filtering Support
+#### ✅ GET (Basic Field Filtering)
+Supports standard field-based filters:
+- `/books/?title__icontains=python`
+- `/books/?pages__gt=200`
+- `/books/?author__city=Delhi`
+
+#### ✅ POST (Dynamic Complex Filtering)
+Supports unlimited levels of nested filtering logic:
+```json
+{
+  "operator": "and",
+  "children": [
+    { "field": "title", "op": "icontains", "value": "django" },
+    {
+      "operator": "or",
+      "children": [
+        { "field": "pages", "op": "gt", "value": 100 },
+        { "field": "author__city", "op": "iexact", "value": "Delhi" }
+      ]
+    }
+  ]
+}
+```
+## 🧰 Tech Stack
+
+- **Backend**: Python, Django, Django REST Framework  
+- **Auth**: JWT (via `SimpleJWT`)  
+- **Filtering**: `django-filter`, dynamic `Q`-objects  
+- **Testing**: Postman  
+- **Security**: `.env` via `python-decouple`, JWT, password hashing  
 
 ---
 
-## 🧪 API Endpoints
+## 📫 API Endpoints
 
 ### 🔐 Authentication
 
-| Method | Endpoint             | Description         |
-|--------|----------------------|---------------------|
-| POST   | `/auth/register/`    | Register a user     |
-| POST   | `/auth/login/`       | Get JWT token pair  |
-
-### 📚 Books (Requires JWT Token)
-
-| Method | Endpoint                      | Description                  |
-|--------|-------------------------------|------------------------------|
-| GET    | `/books/`                     | Get all books                |
-| POST   | `/books/create`               | Add one or more books        |
-| PUT    | `/books/update/<id>/`         | Full update a book by ID     |
-| PATCH  | `/books/partial-update/<id>/` | Partially update book by ID  |
-| DELETE | `/books/delete/<id>/`         | Delete a book by ID          |
+| Method | Endpoint                 | Description         |
+|--------|--------------------------|---------------------|
+| POST   | `/auth/register/`        | Register user       |
+| POST   | `/auth/login/`           | Get JWT token pair  |
+| POST   | `/auth/token/refresh/`   | Refresh JWT token   |
 
 ---
+
+### 📚 Book Management (Requires Token)
+
+| Method | Endpoint              | Description               |
+|--------|-----------------------|---------------------------|
+| GET    | `/books/`             | List all books            |
+| POST   | `/books/`             | Create one or more books  |
+| PUT    | `/books/<id>/`        | Update full book details  |
+| PATCH  | `/books/<id>/`        | Partially update book     |
+| DELETE | `/books/<id>/`        | Delete a book             |
+| GET    | `/books/?title=xyz`   | Filter via query params   |
+| POST   | `/books/filter/`      | Apply nested filters      |
+
+---
+
+### 👨‍💼 Author Management (Requires Token)
+
+| Method | Endpoint              | Description        |
+|--------|-----------------------|--------------------|
+| GET    | `/authors/`           | List all authors   |
+| POST   | `/authors/`           | Create an author   |
+| PUT    | `/authors/<id>/`      | Update author      |
+| DELETE | `/authors/<id>/`      | Delete author      |
+
+---
+
+## 📸 Postman Testing
+
+All endpoints have been tested and documented via Postman.  
+👉 Include screenshots of sample success and failure responses in the `/docs/screenshots/` folder.
+
+---
+
+## 📂 Project Structure Highlights
+
+```
+myapp/
+├── models.py            # Book and Author models
+├── serializers.py       # DRF serializers
+├── views/
+│   ├── crud.py          # CRUD operations using ViewSets
+│   ├── auth.py          # RegisterView (JWT auth)
+│   └── filters.py       # Dynamic nested filter logic
+├── urls.py              # All route definitions
+└── filters.py           # BookFilter class for GET filtering
+```
+
+---
+
+## ✅ Standards & Best Practices
+
+- ✅ Uses `ViewSets` for clean, DRY CRUD implementation.
+- ✅ Logging added for key actions (create, update, register).
+- ✅ Modular views (auth, filters, crud separated).
+- ✅ Strong comments in Javadoc-style for clarity.
+- ✅ JWT-based secure authentication & session handling.
+- ✅ Uses `.env` and `decouple` for config separation.
+- ✅ Validated against standard REST API design practices.
+
+---
+
+## 🧪 Sample Test Queries
+
+### 🔎 Basic GET Query Params:
+
+- `/books/?title__icontains=python`
+- `/books/?pages__gt=200`
+- `/books/?author__city=Delhi`
+
+### 🔍 POST Dynamic Filtering:
+
+```json
+{
+  "operator": "or",
+  "children": [
+    {
+      "operator": "and",
+      "children": [
+        { "field": "title", "op": "icontains", "value": "django" },
+        { "field": "pages", "op": "gt", "value": 100 }
+      ]
+    },
+    {
+      "operator": "or",
+      "children": [
+        { "field": "author__city", "op": "iexact", "value": "Delhi" },
+        { "field": "author__city", "op": "iexact", "value": "Bangalore" }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 📛 Error Handling
+
+- `400 Bad Request`: Invalid filters or payloads  
+- `401 Unauthorized`: Missing or invalid token  
+- `404 Not Found`: Book or Author not found  
+
+---
+
+## 🧠 Author
+
+**Gauri Saxena**  
+[LinkedIn](https://www.linkedin.com/in/gaurisaxena02/) • [GitHub](https://github.com/gauri02saxena) • gaurisaxena7379@gmail.com
 
 
