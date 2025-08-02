@@ -149,24 +149,35 @@ myapp/
 
 ```json
 {
-  "operator": "or",
+  "operator": "and",
   "children": [
     {
-      "operator": "and",
-      "children": [
-        { "field": "title", "op": "icontains", "value": "django" },
-        { "field": "pages", "op": "gt", "value": 100 }
-      ]
+      "field": "title",
+      "op": "icontains",
+      "value": "django"
     },
     {
       "operator": "or",
       "children": [
-        { "field": "author__city", "op": "iexact", "value": "Delhi" },
-        { "field": "author__city", "op": "iexact", "value": "Bangalore" }
+        {
+          "operator": "and",
+          "children": [
+            { "field": "pages", "op": "gt", "value": 100 },
+            { "field": "author__city", "op": "iexact", "value": "Delhi" }
+          ]
+        },
+        {
+          "operator": "and",
+          "children": [
+            { "field": "pages", "op": "lt", "value": 300 },
+            { "field": "author__city", "op": "iexact", "value": "Bangalore" }
+          ]
+        }
       ]
     }
   ]
 }
+
 ```
 
 ---
